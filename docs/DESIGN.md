@@ -1,0 +1,1 @@
+### This file will contain a log of design choices and tradeoffs

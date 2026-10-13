@@ -1,0 +1,35 @@
+name: Run pytest
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Fetch the repository code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Step 2: Set up the desired Python version
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.14'
+
+    # Step 3: Create venv and install dependencies
+    - name: Install dependencies
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install pytest  # Ensures pytest is installed if not in requirements.txt
+
+    # Step 4: Reactivate venv and run pytest
+    - name: Run pytest
+      run: |
+        source .venv/bin/activate
+        pytest
